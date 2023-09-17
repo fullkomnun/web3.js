@@ -142,3 +142,7 @@ Documentation:
 -   ESM import bug (#6359)
 
 ## [Unreleased]
+
+### Fixed
+
+-   Validator will now properly handle all valid numeric type sizes: int<N> / uint<N> where 8 <= N <= 256 and N % 8 == 0 
