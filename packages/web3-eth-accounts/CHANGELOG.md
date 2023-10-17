@@ -138,3 +138,13 @@ Documentation:
 
 
 ## [Unreleased]
+
+### Added
+
+-   Added public function `privateKeyToPublicKey`
+-   Added exporting `BaseTransaction` from the package (#6493)
+-   Added exporting `txUtils` from the package (#6493)
+
+### Fixed
+
+-   Fixed `recover` function, `v` will be normalized to value 0,1 (#6344) 

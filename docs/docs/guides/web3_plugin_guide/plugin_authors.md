@@ -19,7 +19,7 @@ To provide type safety and IntelliSense for your plugin users, please refer to t
 At the minimum, your plugin should depend on `web3` package version `4.0.2`. This will allow your plugin class to extend the provided `Web3PluginBase` abstract class. However, `web3` shouldn't be listed as a regular dependency, instead it should be listed in your plugin's `package.json` as a [peer dependency](https://nodejs.org/en/blog/npm/peer-dependencies/).
 
 :::important
-If the version `web3@4.0.2`, was not available yet. You can use the version `web3@4.0.2-dev.af57eae.0`.
+It is important to note that the plugin name should be structured as `@<organization>/web3-plugin-<name>` or  `web3-plugin-<name>`.
 :::
 
 ```json
@@ -33,6 +33,31 @@ If the version `web3@4.0.2`, was not available yet. You can use the version `web
 ```
 
 When your users install your plugin, this will allow the package manager to make use of the user installed `web3` if available and if the version satisfies the version constraints instead of installing it's own version of `web3`.
+
+## Add New Transaction Type
+
+Furthermore, you have the flexibility to expand your range of transaction types, enhancing compatibility with the `web3.js` library.
+
+
+```typescript
+// create new TransactionType class which extends BaseTransaction class
+import { BaseTransaction } from 'web3-eth-accounts';
+const TRANSACTION_TYPE = 15;
+class SomeNewTxTypeTransaction extends BaseTransaction {
+    // ...
+}
+
+// create new plugin and add `SomeNewTxTypeTransaction` to the library
+import { Web3EthPluginBase } from 'web3';
+
+class SomeNewTxTypeTransactionPlugin extends Web3PluginBase {
+   public pluginNamespace = 'someNewTxTypeTransaction';
+   public constructor() {
+      super();
+      TransactionFactory.registerTransactionType(TRANSACTION_TYPE, SomeNewTxTypeTransaction);
+   }
+}
+```
 
 ## Extending `Web3PluginBase`
 

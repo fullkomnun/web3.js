@@ -28,6 +28,7 @@ import {
 	recoverTransaction,
 	sign,
 	signTransaction,
+	privateKeyToPublicKey,
 } from '../../src/account';
 import {
 	invalidDecryptData,
@@ -42,6 +43,8 @@ import {
 	validHashMessageData,
 	validPrivateKeytoAccountData,
 	validPrivateKeyToAddressData,
+	validPrivateKeyToPublicKeyData,
+	validRecover,
 } from '../fixtures/account';
 import { TransactionFactory } from '../../src/tx/transactionFactory';
 import { TxData } from '../../src/tx/types';
@@ -87,6 +90,13 @@ describe('accounts', () => {
 		describe('invalid cases', () => {
 			it.each(invalidPrivateKeytoAccountData)('%s', (input, output) => {
 				expect(() => privateKeyToAccount(input)).toThrow(output);
+			});
+		});
+	});
+	describe('privateKeyToPublicKey', () => {
+		describe('valid cases', () => {
+			it.each(validPrivateKeyToPublicKeyData)('%s', (privateKey, isCompressed, output) => {
+				expect(privateKeyToPublicKey(privateKey, isCompressed)).toEqual(output);
 			});
 		});
 	});
@@ -213,6 +223,12 @@ describe('accounts', () => {
 				const result = decrypt(input[0], input[1]);
 
 				await expect(result).rejects.toThrow(Web3ValidatorError);
+			});
+		});
+
+		describe('valid signatures for recover', () => {
+			it.each(validRecover)('&s', (data, signature) => {
+				recover(data, signature);
 			});
 		});
 	});
